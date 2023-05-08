@@ -1,4 +1,4 @@
-package com.amalitech.movaapp.ft_onboarding.presentation.login
+package com.amalitech.movaapp.ft_onboarding.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -27,7 +27,8 @@ import com.amalitech.movaapp.ui.theme.LocalDimensions
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel
+    viewModel: LoginViewModel,
+    goToMainScreen: () -> Unit
 ) {
     val state = viewModel.loginUiState.collectAsState()
 
@@ -66,7 +67,7 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth(),
             buttonText = "Sign in"
         ) {
-            viewModel.onSignIn()
+            goToMainScreen()
         }
     }
 }
@@ -110,10 +111,4 @@ fun PasswordTextField(
         colors = TextFieldDefaults.textFieldColors(backgroundColor = EditTextBackground)
     )
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    LoginScreen(LoginViewModel())
 }

@@ -1,4 +1,4 @@
-package com.amalitech.movaapp.ft_onboarding.presentation.welcome
+package com.amalitech.movaapp.ft_onboarding.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

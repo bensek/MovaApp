@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.amalitech.movaapp.ft_onboarding.presentation.login.LoginScreen
-import com.amalitech.movaapp.ft_onboarding.presentation.login.LoginViewModel
-import com.amalitech.movaapp.ft_onboarding.presentation.welcome.WelcomeScreen
+import com.amalitech.movaapp.ft_onboarding.login.LoginScreen
+import com.amalitech.movaapp.ft_onboarding.login.LoginViewModel
+import com.amalitech.movaapp.ft_onboarding.welcome.WelcomeScreen
 
 
 @Composable
@@ -23,7 +23,13 @@ fun MovaNavHost(
             }
         }
         composable(Route.LOGIN) {
-            LoginScreen(LoginViewModel())
+            LoginScreen(LoginViewModel()) {
+                navController.navigate(Route.MAIN)
+            }
+        }
+
+        composable(Route.MAIN) {
+            MainScreen()
         }
     }
 

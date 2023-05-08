@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.amalitech.movaapp.core.navigation.MovaNavHost
-import com.amalitech.movaapp.ft_onboarding.presentation.login.LoginScreen
-import com.amalitech.movaapp.ft_onboarding.presentation.login.LoginViewModel
-import com.amalitech.movaapp.ft_onboarding.presentation.welcome.WelcomeScreen
+import com.amalitech.movaapp.ft_onboarding.login.LoginScreen
+import com.amalitech.movaapp.ft_onboarding.login.LoginViewModel
+import com.amalitech.movaapp.ft_onboarding.welcome.WelcomeScreen
 import com.amalitech.movaapp.ui.theme.MovaAppTheme
 import kotlin.math.log
 
