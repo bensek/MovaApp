@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.amalitech.movaapp.ft_home.home.HomeScreen
 
 
 @Composable
@@ -27,11 +28,6 @@ fun MainNavigation(navController: NavHostController) {
 
 }
 
-@Composable
-fun HomeScreen() {
-    Text(text = "Home")
-
-}
 @Composable
 fun ExploreScreen() {
     Text(text = "Explore")
