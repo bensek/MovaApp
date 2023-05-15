@@ -1,11 +1,13 @@
 package com.amalitech.movaapp.ft_home.home
 
 import android.icu.text.CaseMap.Title
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,6 +17,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,38 +26,39 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.amalitech.movaapp.R
-import com.amalitech.movaapp.core.components.cornerSize
+import com.amalitech.movaapp.core.components.LoadingProgressBar
 import com.amalitech.movaapp.domain.model.Movie
 import com.amalitech.movaapp.ui.theme.LocalDimensions
 import com.amalitech.movaapp.ui.theme.RedMain
 import com.amalitech.movaapp.ui.theme.TextBlack
 
-val movie = Movie("Dr. Strange 2", "Action, Science, Fiction", 9.8,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzJW2tINWyydVxjIIIKrDC3iHM-pX4_Pd9eg&usqp=CAU")
-
 @Composable
-fun HomeScreen() {
-
+fun HomeScreen(
+    viewModel: HomeViewModel
+) {
+    val state = viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .verticalScroll(scrollState)
-    ) {
-        FeaturedMovie(movie = movie)
 
-        SectionList(title = "Top 10 Movies This Week", moviesList = emptyList() )
+    if (state.value.isLoading) {
+        LoadingProgressBar()
+    } else {
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+        ) {
+            FeaturedMovie(movie = state.value.featured!!)
 
-        SectionList(title = "New Releases", moviesList = emptyList() )
+            SectionList(title = "Popular Movies", moviesList = state.value.popular)
 
-        SectionList(title = "Top 10 Movies This Week", moviesList = emptyList() )
+            SectionList(title = "Top Rated Movies", moviesList = state.value.topRated)
 
-        SectionList(title = "New Releases", moviesList = emptyList() )
+            SectionList(title = "Upcoming Movies", moviesList = state.value.upcoming)
+        }
     }
-
 }
 
 @Composable
@@ -63,14 +67,9 @@ fun FeaturedMovie(movie: Movie) {
         modifier = Modifier
             .height(280.dp)
     ) {
-//        AsyncImage(
-//            model = movie.image,
-//            contentDescription = movie.title,
-//            modifier = Modifier.fillMaxSize()
-//        )
-        Image(
-            painter = painterResource(id = com.amalitech.movaapp.R.drawable.movie),
-            contentDescription = null,
+        AsyncImage(
+            model = movie.imageUrl,
+            contentDescription = movie.title,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
@@ -81,7 +80,7 @@ fun FeaturedMovie(movie: Movie) {
                 .padding(LocalDimensions.current.padding)
         ) {
             Image(
-                painter = painterResource(id = com.amalitech.movaapp.R.drawable.logo),
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = null,
                 modifier = Modifier.size(40.dp)
             )
@@ -152,7 +151,7 @@ fun SectionList(
         ) {
             Text(
                 text = title,
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextBlack
             )
@@ -164,66 +163,36 @@ fun SectionList(
                 color = RedMain,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
-
         }
+
         LazyRow(
             contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            items(10) {
-                val movie = Movie("Dr. Strange 2", "Action, Science, Fiction", 9.5,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzJW2tINWyydVxjIIIKrDC3iHM-pX4_Pd9eg&usqp=CAU")
-
+            items(moviesList) { movie ->
                 SectionListItem(movie = movie)
             }
         }
-
-
     }
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-
-    val movie = Movie("Dr. Strange 2", "Action, Science, Fiction", 9.5,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzJW2tINWyydVxjIIIKrDC3iHM-pX4_Pd9eg&usqp=CAU")
-
-    SectionListItem(movie = movie)
-    
-}
-
 @Composable
 fun SectionListItem(movie: Movie) {
-    
-    Box() {
 
-
+    Box {
         Card(
             modifier = Modifier
                 .width(140.dp)
                 .height(200.dp),
-            shape = RoundedCornerShape(4.dp)
-
+            shape = RoundedCornerShape(8.dp)
         ) {
-
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(id = R.drawable.movie),
+            AsyncImage(
+                model = movie.imageUrl,
                 contentDescription = movie.title,
+                modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
-
         }
-
-//        Text(
-//            modifier = Modifier
-//                .width(20.dp)
-//                .background(RedMain)
-//                .clip(RoundedCornerShape(2.dp)),
-//            text = movie.rating.toString(),
-//            color = Color.White,
-//            fontSize = 10.sp
-//        )
-
     }
 }

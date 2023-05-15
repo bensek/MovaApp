@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.amalitech.movaapp.ft_home.home.HomeScreen
+import com.amalitech.movaapp.ft_home.home.HomeViewModel
 
 
 @Composable
@@ -13,7 +14,7 @@ fun MainNavigation(navController: NavHostController) {
 
     NavHost(navController = navController, startDestination = BottomNavScreens.Home.route) {
         composable(BottomNavScreens.Home.route) {
-            HomeScreen()
+            HomeScreen(HomeViewModel())
         }
         composable(BottomNavScreens.Explore.route) {
             ExploreScreen()
