@@ -1,5 +1,6 @@
 package com.amalitech.movaapp.core.navigation.bottom_appbar
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -27,6 +28,7 @@ fun BottomAppBar(
 
     BottomNavigation(
         modifier = Modifier
+            .height(60.dp)
             .graphicsLayer {
                 clip = true
                 shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)

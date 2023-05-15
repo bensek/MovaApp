@@ -54,9 +54,10 @@ fun HomeScreen(
 
             SectionList(title = "Popular Movies", moviesList = state.value.popular)
 
+            SectionList(title = "Upcoming Movies", moviesList = state.value.upcoming)
+
             SectionList(title = "Top Rated Movies", moviesList = state.value.topRated)
 
-            SectionList(title = "Upcoming Movies", moviesList = state.value.upcoming)
         }
     }
 }
