@@ -9,6 +9,7 @@ import com.amalitech.movaapp.core.navigation.bottom_appbar.BottomAppBar
 @Composable
 fun AppScaffold(
     navController: NavHostController,
+    navBarController: NavHostController,
     logout: () -> Unit
 ) {
 
@@ -16,12 +17,12 @@ fun AppScaffold(
 
     Scaffold(
         bottomBar = {
-            BottomAppBar(navController = navController)
+            BottomAppBar(navController = navBarController)
         },
         scaffoldState = scaffoldState
     ) {
         println(it)
-        MainNavigation(navController = navController)
+        MainNavigation(navController = navController, navBarController = navBarController)
     }
 
 }

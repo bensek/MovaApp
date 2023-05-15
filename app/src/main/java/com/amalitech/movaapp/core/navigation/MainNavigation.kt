@@ -8,20 +8,27 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.amalitech.movaapp.ft_home.grid.GridScreen
 import com.amalitech.movaapp.ft_home.home.HomeScreen
 import com.amalitech.movaapp.ft_home.home.HomeViewModel
 
 
 @Composable
-fun MainNavigation(navController: NavHostController) {
+fun MainNavigation(
+    navController: NavHostController,
+    navBarController: NavHostController
+) {
 
     NavHost(
-        navController = navController,
+        navController = navBarController,
         startDestination = BottomNavScreens.Home.route,
         modifier = Modifier.padding(bottom = 44.dp)
     ) {
         composable(BottomNavScreens.Home.route) {
-            HomeScreen(HomeViewModel())
+            HomeScreen(
+                navController = navController,
+                viewModel = HomeViewModel()
+            )
         }
         composable(BottomNavScreens.Explore.route) {
             ExploreScreen()

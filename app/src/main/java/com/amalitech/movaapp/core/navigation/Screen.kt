@@ -1,6 +1,6 @@
 package com.amalitech.movaapp.core.navigation
 
-sealed class Screen(val route: String) {
+sealed class Screen(val route: String, val id: String = "") {
     object WelcomeScreen: Screen("welcome")
     object LoginScreen: Screen("login")
     object RegisterScreen: Screen("register")
@@ -9,4 +9,6 @@ sealed class Screen(val route: String) {
 
     object HomeScreen: Screen("home")
     object ExploreScreen: Screen("explore")
+    object GridScreen: Screen("grid_movies")
+
 }
