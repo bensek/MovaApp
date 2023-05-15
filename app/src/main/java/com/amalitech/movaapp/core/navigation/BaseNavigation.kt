@@ -6,6 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.amalitech.movaapp.ft_onboarding.login.LoginScreen
 import com.amalitech.movaapp.ft_onboarding.login.LoginViewModel
+import com.amalitech.movaapp.ft_onboarding.register.RegisterScreen
+import com.amalitech.movaapp.ft_onboarding.register.RegisterViewModel
 import com.amalitech.movaapp.ft_onboarding.welcome.WelcomeScreen
 
 
@@ -25,9 +27,18 @@ fun BaseNavigation() {
             }
         }
         composable(Screen.LoginScreen.route) {
-            LoginScreen(LoginViewModel()) {
-                navController.navigate(Screen.AppScaffold.route)
-            }
+            LoginScreen(
+                viewModel = LoginViewModel(),
+                goToMainScreen = { navController.navigate(Screen.AppScaffold.route) },
+                goToSignUpScreen = { navController.navigate(Screen.RegisterScreen.route) }
+            )
+        }
+
+        composable(Screen.RegisterScreen.route) {
+            RegisterScreen(
+                viewModel = RegisterViewModel(),
+                login = { navController.navigate(Screen.LoginScreen.route) }
+            )
         }
 
         composable(Screen.AppScaffold.route) {
