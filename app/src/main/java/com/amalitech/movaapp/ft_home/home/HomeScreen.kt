@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -20,10 +19,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.amalitech.movaapp.R
+import com.amalitech.movaapp.core.components.MIconButton
 import com.amalitech.movaapp.core.components.LoadingProgressBar
 import com.amalitech.movaapp.core.components.MovieListItem
 import com.amalitech.movaapp.core.navigation.Screen
@@ -36,7 +35,8 @@ import com.amalitech.movaapp.ui.theme.TextBlack
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    openDetails: (Int) -> Unit
 ) {
     val state = viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
@@ -51,13 +51,20 @@ fun HomeScreen(
             FeaturedMovie(movie = state.value.featured!!)
 
             SectionList(title = "Popular Movies", moviesList = state.value.popular,
-            seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.Popular.name}") })
+            seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.Popular.name}") },
+                { openDetails(it) } )
 
-            SectionList(title = "Upcoming Movies", moviesList = state.value.upcoming,
-                seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.Upcoming.name}") })
+            SectionList(
+                title = "Upcoming Movies", moviesList = state.value.upcoming,
+                seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.Upcoming.name}") },
+                openDetails = { openDetails(it) }
+            )
 
-            SectionList(title = "Top Rated Movies", moviesList = state.value.topRated,
-                seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.TopRated.name}") })
+            SectionList(
+                title = "Top Rated Movies", moviesList = state.value.topRated,
+                seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.TopRated.name}") },
+                openDetails = { openDetails(it) }
+            )
 
         }
     }
@@ -102,8 +109,7 @@ fun FeaturedMovie(movie: Movie) {
                     imageVector = Icons.Filled.Notifications,
                     contentDescription = "Notifications",
                     tint = Color.White,
-
-                    )
+                )
             }
         }
 
@@ -126,13 +132,31 @@ fun FeaturedMovie(movie: Movie) {
             )
 
             Row(modifier = Modifier.padding(top = 4.dp)) {
-                FeaturedButton(title = "Play", backgroundColor = RedMain, borderColor = RedMain, icon = com.amalitech.movaapp.R.drawable.play_btn_small)
+                MIconButton(
+                    modifier = Modifier.height(32.dp),
+                    title = "Play",
+                    backgroundColor = RedMain,
+                    borderColor = RedMain,
+                    icon = R.drawable.play_btn_small,
+                    textColor = Color.White,
+                    iconColor = Color.White,
+                    iconSize = 15.dp,
+                    textSize = 10.sp
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                FeaturedButton(title = "My List", backgroundColor = Color.Transparent, borderColor = Color.White, iconVector = Icons.Filled.Add)
+                MIconButton(
+                    modifier = Modifier.height(32.dp),
+                    title = "My List",
+                    backgroundColor = Color.Transparent,
+                    borderColor = Color.White,
+                    iconVector = Icons.Filled.Add,
+                    textColor = Color.White,
+                    iconColor = Color.White,
+                    iconSize = 15.dp,
+                    textSize = 10.sp
+                )
             }
-
         }
-
     }
 }
 
@@ -140,7 +164,8 @@ fun FeaturedMovie(movie: Movie) {
 fun SectionList(
     title: String,
     moviesList: List<Movie>,
-    seeAll: () -> Unit
+    seeAll: () -> Unit,
+    openDetails: (Int) -> Unit
 ) {
 
     Column(
@@ -166,7 +191,7 @@ fun SectionList(
                 color = RedMain,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .clickable( onClick = seeAll)
+                    .clickable(onClick = seeAll)
             )
         }
 
@@ -175,7 +200,9 @@ fun SectionList(
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             items(moviesList) { movie ->
-                MovieListItem(movie = movie, cardModifier = Modifier.width(140.dp).height(200.dp))
+                MovieListItem(movie = movie, cardModifier = Modifier.width(140.dp).height(200.dp)) {
+                    openDetails(movie.id)
+                }
             }
         }
     }

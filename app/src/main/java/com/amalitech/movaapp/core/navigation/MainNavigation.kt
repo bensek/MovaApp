@@ -1,5 +1,6 @@
 package com.amalitech.movaapp.core.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,9 +26,13 @@ fun MainNavigation(
         modifier = Modifier.padding(bottom = 44.dp)
     ) {
         composable(BottomNavScreens.Home.route) {
+
             HomeScreen(
                 navController = navController,
-                viewModel = HomeViewModel()
+                viewModel = HomeViewModel(),
+                openDetails = {
+                    navController.navigate(Screen.DetailScreen.route+"/$it")
+                }
             )
         }
         composable(BottomNavScreens.Explore.route) {

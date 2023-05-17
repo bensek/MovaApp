@@ -18,6 +18,7 @@ import com.amalitech.movaapp.core.components.ToolBar
 import com.amalitech.movaapp.domain.model.Movie
 import com.amalitech.movaapp.ft_home.MovieType
 import com.amalitech.movaapp.ui.theme.LocalDimensions
+import com.amalitech.movaapp.ui.theme.TextBlack
 
 @Composable
 fun GridScreen(
@@ -28,7 +29,7 @@ fun GridScreen(
     val state = viewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = { ToolBar(navController = navController, title = "$movieType Movies") }
+        topBar = { ToolBar(navController = navController, title = "$movieType Movies", isTransparent = false) }
     ) {
         println(it)
         if (state.value.isLoading) {
@@ -51,7 +52,9 @@ fun GridItems(movies: List<Movie>) {
         items(movies) { movie ->
             MovieListItem(movie = movie, cardModifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp))
+                .height(250.dp)) {
+
+            }
         }
 
     }

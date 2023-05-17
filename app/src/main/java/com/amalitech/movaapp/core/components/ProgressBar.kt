@@ -17,9 +17,9 @@ fun LoadingProgressBar() {
         modifier = Modifier.fillMaxSize()
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.size(40.dp).align(Alignment.Center),
+            modifier = Modifier.size(50.dp).align(Alignment.Center),
             color = RedMain,
-            strokeWidth = 2.dp
+            strokeWidth = 4.dp
         )
     }
 

@@ -1,17 +1,18 @@
 package com.amalitech.movaapp.core.components
 
-import androidx.annotation.ColorRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amalitech.movaapp.R
@@ -79,7 +80,48 @@ fun SocialButton(
         )
 
     }
+}
 
+@Composable
+fun MIconButton(
+    modifier: Modifier = Modifier,
+    title: String,
+    backgroundColor: Color,
+    borderColor: Color,
+    textColor: Color,
+    iconColor: Color,
+    icon: Int? = null,
+    iconVector: ImageVector? = null,
+    iconSize: Dp,
+    textSize: TextUnit
+) {
+    Button(onClick = { /*TODO*/ },
+        modifier = modifier,
+        shape = RoundedCornerShape(24.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
+        border = BorderStroke(1.dp, borderColor)
+    ) {
+        if (icon != null) {
+            Icon(
+                painter = painterResource(id = icon),
+                contentDescription = null,
+                modifier = Modifier.size(iconSize),
+                tint = iconColor
+            )
+        }
+        if (iconVector != null) {
+            Icon(
+                imageVector = iconVector,
+                contentDescription = null,
+                modifier = Modifier.size(iconSize),
+                tint = iconColor
+            )
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = title, color = textColor, fontSize = textSize)
+
+    }
 }
 
 @Preview(showBackground = true)

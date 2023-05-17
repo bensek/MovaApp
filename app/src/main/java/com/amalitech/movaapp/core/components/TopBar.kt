@@ -15,7 +15,8 @@ import com.amalitech.movaapp.ui.theme.TextBlack
 @Composable
 fun ToolBar(
     title: String,
-    navController: NavController
+    navController: NavController,
+    isTransparent: Boolean = false
 ) {
     TopAppBar(
         title = { Text(text = title) },
@@ -23,10 +24,10 @@ fun ToolBar(
             IconButton(onClick = {
                 navController.popBackStack()
             }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "back", tint = TextBlack)
+                Icon(Icons.Default.ArrowBack, contentDescription = "back", tint = if (isTransparent) Color.White else TextBlack)
             }
         },
-        backgroundColor = Color.White,
+        backgroundColor = if (isTransparent) Color.Transparent else Color.White,
         contentColor = TextBlack,
         elevation = 0.dp
     )

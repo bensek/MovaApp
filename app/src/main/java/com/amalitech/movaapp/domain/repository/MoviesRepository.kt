@@ -1,7 +1,8 @@
 package com.amalitech.movaapp.domain.repository
 
-import com.amalitech.movaapp.data.remote.dto.MovieDto
+import com.amalitech.movaapp.domain.model.Credit
 import com.amalitech.movaapp.domain.model.Movie
+import com.amalitech.movaapp.domain.model.Video
 
 interface MoviesRepository {
 
@@ -12,5 +13,13 @@ interface MoviesRepository {
     suspend fun getUpcomingMovies(): List<Movie>
 
     suspend fun getFeaturedMovie(): Movie
+
+    suspend fun getMovieDetails(id: Int): Movie
+
+    suspend fun getMovieVideos(id: Int): List<Video>
+
+    suspend fun getSimilarMovies(id: Int): List<Movie>
+
+    suspend fun getMovieCredits(int: Int): List<Credit>
 
 }

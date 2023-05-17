@@ -1,5 +1,6 @@
 package com.amalitech.movaapp.core.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -16,12 +17,16 @@ import com.amalitech.movaapp.domain.model.Movie
 @Composable
 fun MovieListItem(
     movie: Movie,
-    cardModifier: Modifier = Modifier
+    cardModifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
 
     Box {
         Card(
-            modifier = cardModifier,
+            modifier = cardModifier
+                .clickable {
+                    onClick()
+                },
             shape = RoundedCornerShape(8.dp)
         ) {
             AsyncImage(
