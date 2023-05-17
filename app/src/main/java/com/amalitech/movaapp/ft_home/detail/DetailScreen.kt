@@ -1,6 +1,5 @@
 package com.amalitech.movaapp.ft_home.detail
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -30,12 +29,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.amalitech.movaapp.R
 import com.amalitech.movaapp.core.components.LoadingProgressBar
@@ -49,8 +45,9 @@ import com.amalitech.movaapp.ui.theme.*
 
 @Composable
 fun DetailScreen(
-    navController: NavHostController,
-    viewModel: DetailViewModel
+    navigateUp: () -> Unit,
+    viewModel: DetailViewModel,
+    movieItemClicked: (Int) -> Unit
 ) {
     val padding = LocalDimensions.current.padding
     val state by viewModel.uiState.collectAsState()
@@ -61,7 +58,7 @@ fun DetailScreen(
     } else if (state.isFailure) {
         Toast.makeText(context, state.errorMsg, Toast.LENGTH_SHORT).show()
     } else {
-        DetailLayout(padding = padding, state = state, navController)
+        DetailLayout(padding = padding, state = state, navigateUp, movieItemClicked)
     }
 }
 
@@ -69,7 +66,8 @@ fun DetailScreen(
 fun DetailLayout(
     padding: Dp,
     state: DetailUiState,
-    navController: NavHostController
+    navigateUp: () -> Unit,
+    onMovieItemClicked: (Int) -> Unit
 ) {
     val movie = state.movie!!
     var scrollState = rememberScrollState()
@@ -91,7 +89,7 @@ fun DetailLayout(
                     .fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
-            ToolBar(title = "", navController = navController, isTransparent = true)
+            ToolBar(title = "", isTransparent = true, navigateUp)
         }
 
         // Movie Title and Share Actions
@@ -255,7 +253,8 @@ fun DetailLayout(
         TabLayout(
             poster = movie.backDropUrl,
             videos = state.trailers,
-            similar = state.similar
+            similar = state.similar,
+            onMovieItemClicked = onMovieItemClicked
         )
 
     }
@@ -310,7 +309,8 @@ fun CastRow(credit: Credit) {
 fun TabLayout(
     poster: String,
     videos: List<Video>,
-    similar: List<Movie>
+    similar: List<Movie>,
+    onMovieItemClicked: (Int) -> Unit
 ) {
     var selectedTabIndex by remember {
         mutableStateOf(0)
@@ -356,7 +356,7 @@ fun TabLayout(
                 TrailersTab(poster, videos)
             }
             1 -> {
-                MoreLikeThisTab(similar)
+                MoreLikeThisTab(similar, onMovieItemClicked)
             }
         }
 
@@ -425,7 +425,7 @@ fun TrailersRow(poster: String, video: Video) {
 }
 
 @Composable
-fun MoreLikeThisTab(similar: List<Movie>) {
+fun MoreLikeThisTab(similar: List<Movie>, onItemClick: (Int) -> Unit) {
     val padding = LocalDimensions.current.padding
     LazyVerticalGrid(
         modifier = Modifier.height(800.dp),
@@ -439,10 +439,9 @@ fun MoreLikeThisTab(similar: List<Movie>) {
                 movie = movie,
                 cardModifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
-            ) {
-
-            }
+                    .height(220.dp),
+                onClick = onItemClick
+            )
         }
     }
 }

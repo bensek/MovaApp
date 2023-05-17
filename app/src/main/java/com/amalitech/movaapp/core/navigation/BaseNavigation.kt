@@ -25,6 +25,12 @@ fun BaseNavigation() {
         navController = navController,
         startDestination = Screen.WelcomeScreen.route
     ) {
+        val openDetailsScreen = { movieId: Int ->
+            navController.navigate(Screen.DetailScreen.route+"/$movieId")
+        }
+
+        val navigateToPreviousScreen: () -> Unit = { navController.popBackStack() }
+
         composable(Screen.WelcomeScreen.route) {
             WelcomeScreen{
                 navController.navigate(Screen.LoginScreen.route)
@@ -55,16 +61,21 @@ fun BaseNavigation() {
             val type = backStackEntry.arguments?.getString("type")
 
             GridScreen(
-                navController = navController,
+                navigateUp = navigateToPreviousScreen,
                 viewModel = GridViewModel(type!!),
-                movieType = type
+                movieType = type,
+                onItemClick = openDetailsScreen
             )
         }
 
         composable(Screen.DetailScreen.route+"/{movieId}") { backStackEntry ->
             val movieId = backStackEntry?.arguments?.getString("movieId")
             val viewModel = DetailViewModel(movieId?.toInt())
-            DetailScreen(viewModel = viewModel, navController = navController)
+            DetailScreen(
+                navigateUp = navigateToPreviousScreen,
+                viewModel = viewModel,
+                movieItemClicked = openDetailsScreen
+            )
         }
 
     }

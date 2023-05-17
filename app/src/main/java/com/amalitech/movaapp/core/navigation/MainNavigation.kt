@@ -25,14 +25,16 @@ fun MainNavigation(
         startDestination = BottomNavScreens.Home.route,
         modifier = Modifier.padding(bottom = 44.dp)
     ) {
+        val openDetailsScreen = { movieId: Int ->
+            navController.navigate(Screen.DetailScreen.route+"/$movieId")
+        }
+
         composable(BottomNavScreens.Home.route) {
 
             HomeScreen(
                 navController = navController,
                 viewModel = HomeViewModel(),
-                openDetails = {
-                    navController.navigate(Screen.DetailScreen.route+"/$it")
-                }
+                openDetails = openDetailsScreen
             )
         }
         composable(BottomNavScreens.Explore.route) {

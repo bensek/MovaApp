@@ -200,9 +200,7 @@ fun SectionList(
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             items(moviesList) { movie ->
-                MovieListItem(movie = movie, cardModifier = Modifier.width(140.dp).height(200.dp)) {
-                    openDetails(movie.id)
-                }
+                MovieListItem(movie = movie, cardModifier = Modifier.width(140.dp).height(200.dp), openDetails)
             }
         }
     }

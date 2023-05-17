@@ -18,14 +18,14 @@ import com.amalitech.movaapp.domain.model.Movie
 fun MovieListItem(
     movie: Movie,
     cardModifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: (Int) -> Unit
 ) {
 
     Box {
         Card(
             modifier = cardModifier
                 .clickable {
-                    onClick()
+                    onClick(movie.id)
                 },
             shape = RoundedCornerShape(8.dp)
         ) {

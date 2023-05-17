@@ -49,10 +49,10 @@ class HomeViewModel: ViewModel() {
                         popular = popular,
                         topRated = topRated,
                         upcoming = upcoming,
-                        featured = featured
+                        featured = featured,
+                        isLoading = false
                     )
                 }
-                _uiState.update { it.copy(isLoading = false) }
             }
          }
 }

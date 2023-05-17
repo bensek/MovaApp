@@ -22,26 +22,30 @@ import com.amalitech.movaapp.ui.theme.TextBlack
 
 @Composable
 fun GridScreen(
-    navController: NavHostController,
+    navigateUp: () -> Unit,
     viewModel: GridViewModel,
-    movieType: String?
+    movieType: String?,
+    onItemClick: (Int) -> Unit
 ) {
     val state = viewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = { ToolBar(navController = navController, title = "$movieType Movies", isTransparent = false) }
+        topBar = { ToolBar(navigateUp = navigateUp, title = "$movieType Movies", isTransparent = false) }
     ) {
         println(it)
         if (state.value.isLoading) {
             LoadingProgressBar()
         } else {
-            GridItems(movies = state.value.movies)
+            GridItems(
+                movies = state.value.movies,
+                openDetails = onItemClick
+            )
         }
     }
 }
 
 @Composable
-fun GridItems(movies: List<Movie>) {
+fun GridItems(movies: List<Movie>, openDetails: (Int) -> Unit) {
     val padding = LocalDimensions.current.padding
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 128.dp),
@@ -50,11 +54,13 @@ fun GridItems(movies: List<Movie>) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(movies) { movie ->
-            MovieListItem(movie = movie, cardModifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)) {
-
-            }
+            MovieListItem(
+                movie = movie,
+                cardModifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp),
+                onClick = openDetails
+            )
         }
 
     }
