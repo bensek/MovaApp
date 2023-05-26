@@ -5,15 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.movaapp.data.repository.MoviesRepositoryImpl
 import com.amalitech.movaapp.domain.repository.MoviesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel: ViewModel() {
-
-    private val repo: MoviesRepository = MoviesRepositoryImpl()
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    var repo: MoviesRepository
+): ViewModel() {
 
     private var _uiState: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()

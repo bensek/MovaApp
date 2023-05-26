@@ -1,22 +1,26 @@
 package com.amalitech.movaapp.ft_home.detail
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.movaapp.data.repository.MoviesRepositoryImpl
 import com.amalitech.movaapp.domain.model.Credit
 import com.amalitech.movaapp.domain.repository.MoviesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(
-    private val movieId: Int?
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    var repo: MoviesRepository
 ): ViewModel() {
-    private val repo: MoviesRepository = MoviesRepositoryImpl()
-
+    private val movieId: Int? = checkNotNull(savedStateHandle.get<String>("movieId")).toInt()
     private var _uiState: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState())
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 

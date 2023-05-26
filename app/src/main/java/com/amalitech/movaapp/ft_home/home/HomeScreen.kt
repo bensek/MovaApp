@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -37,7 +39,7 @@ import com.amalitech.movaapp.ui.theme.TextBlack
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: HomeViewModel = HomeViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     openDetails: (Int) -> Unit
 ) {
     val state = viewModel.uiState.collectAsState()

@@ -9,9 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.amalitech.movaapp.ft_home.grid.GridScreen
 import com.amalitech.movaapp.ft_home.home.HomeScreen
-import com.amalitech.movaapp.ft_home.home.HomeViewModel
 
 
 @Composable
@@ -33,7 +31,6 @@ fun MainNavigation(
 
             HomeScreen(
                 navController = navController,
-                viewModel = HomeViewModel(),
                 openDetails = openDetailsScreen
             )
         }

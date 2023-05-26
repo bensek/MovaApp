@@ -4,8 +4,6 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.amalitech.movaapp.data.remote.ApiInterface
-import com.amalitech.movaapp.data.remote.RetrofitService
-import com.amalitech.movaapp.data.remote.dto.MovieDto
 import com.amalitech.movaapp.data.remote.dto.toCredit
 import com.amalitech.movaapp.data.remote.dto.toMovie
 import com.amalitech.movaapp.data.remote.dto.toVideo
@@ -16,12 +14,12 @@ import com.amalitech.movaapp.domain.repository.MoviesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MoviesRepositoryImpl(
-): MoviesRepository {
-
-    private val api:ApiInterface = RetrofitService.apiInterface
+class MoviesRepositoryImpl @Inject constructor(
+    private val api: ApiInterface,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+): MoviesRepository {
 
     override suspend fun getPopularMovies(): List<Movie> {
         return withContext(dispatcher) {

@@ -5,9 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.amalitech.movaapp.ft_home.detail.DetailScreen
-import com.amalitech.movaapp.ft_home.detail.DetailViewModel
 import com.amalitech.movaapp.ft_home.grid.GridScreen
-import com.amalitech.movaapp.ft_home.grid.GridViewModel
 import com.amalitech.movaapp.ft_onboarding.login.LoginScreen
 import com.amalitech.movaapp.ft_onboarding.login.LoginViewModel
 import com.amalitech.movaapp.ft_onboarding.register.RegisterScreen
@@ -62,18 +60,14 @@ fun BaseNavigation() {
 
             GridScreen(
                 navigateUp = navigateToPreviousScreen,
-                viewModel = GridViewModel(type!!),
                 movieType = type,
                 onItemClick = openDetailsScreen
             )
         }
 
         composable(Screen.DetailScreen.route+"/{movieId}") { backStackEntry ->
-            val movieId = backStackEntry?.arguments?.getString("movieId")
-            val viewModel = DetailViewModel(movieId?.toInt())
             DetailScreen(
                 navigateUp = navigateToPreviousScreen,
-                viewModel = viewModel,
                 movieItemClicked = openDetailsScreen
             )
         }

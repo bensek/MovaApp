@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.amalitech.movaapp.core.components.LoadingProgressBar
 import com.amalitech.movaapp.core.components.MovieListItem
@@ -23,7 +25,7 @@ import com.amalitech.movaapp.ui.theme.TextBlack
 @Composable
 fun GridScreen(
     navigateUp: () -> Unit,
-    viewModel: GridViewModel,
+    viewModel: GridViewModel = hiltViewModel(),
     movieType: String?,
     onItemClick: (Int) -> Unit
 ) {
