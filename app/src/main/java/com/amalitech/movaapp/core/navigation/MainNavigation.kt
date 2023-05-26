@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.amalitech.movaapp.ft_explore.ExploreScreen
 import com.amalitech.movaapp.ft_home.home.HomeScreen
 
 
@@ -35,7 +36,9 @@ fun MainNavigation(
             )
         }
         composable(BottomNavScreens.Explore.route) {
-            ExploreScreen()
+            ExploreScreen(
+                openDetails = openDetailsScreen
+            )
         }
         composable(BottomNavScreens.MyList.route) {
             MyListScreen()
@@ -47,10 +50,6 @@ fun MainNavigation(
 
 }
 
-@Composable
-fun ExploreScreen() {
-    Text(text = "Explore")
-}
 
 @Composable
 fun MyListScreen() {

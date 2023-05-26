@@ -7,6 +7,7 @@ import com.amalitech.movaapp.data.remote.dto.VideoApiResponse
 import com.amalitech.movaapp.domain.model.Movie
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiInterface {
 
@@ -36,4 +37,10 @@ interface ApiInterface {
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCredits(@Path("movie_id") movieId: Int): CreditApiResponse
+
+
+    // Explore Screen
+
+    @GET("search/movie")
+    suspend fun searchMovie(@Query("query") query: String): ApiResponse
 }

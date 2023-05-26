@@ -6,11 +6,12 @@ import androidx.compose.ui.graphics.Color
 
 val RedMain = Color(0xFFE21120)
 val LightRed = Color(0xFFFCE8EA)
-val EditTextBackground = Color(0xFFFAFAFA)
+val EditTextBackground = Color(0xFF9E9E9E)
 val LightGray = Color(0xFFB9B9BA)
 val GrayStroke = Color(0xFF9E9E9E)
 val TextBlack = Color(0xFF0E0D0F)
 val Black = Color(0xFF181A20)
+val SearchBarColor = Color(0xFFF5F5F5)
 
 
 val Purple200 = Color(0xFFBB86FC)

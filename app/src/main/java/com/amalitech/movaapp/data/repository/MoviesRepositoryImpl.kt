@@ -100,4 +100,14 @@ class MoviesRepositoryImpl @Inject constructor(
             credit
         }
     }
+
+    override suspend fun searchMovies(query: String): List<Movie> {
+        return withContext(dispatcher) {
+            api.searchMovie(query)
+                .results
+                .map {
+                    it.toMovie()
+                }
+        }
+    }
 }

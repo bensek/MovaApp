@@ -22,4 +22,7 @@ interface MoviesRepository {
 
     suspend fun getMovieCredits(int: Int): List<Credit>
 
+    suspend fun searchMovies(query: String): List<Movie>
+
+
 }
