@@ -4,6 +4,7 @@ import com.amalitech.movaapp.core.util.Constants
 import com.amalitech.movaapp.core.util.Constants.BASE_URL
 import com.amalitech.movaapp.data.remote.ApiInterface
 import com.amalitech.movaapp.data.remote.ApiKeyInterceptor
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,12 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkModule {
 
     @Provides
-    fun providesInterceptor(): Interceptor {
+    fun providesInterceptor(): ApiKeyInterceptor {
         return ApiKeyInterceptor()
     }
 
     @Provides
-    fun providesOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    fun providesOkHttpClient(interceptor: ApiKeyInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .build()
