@@ -1,5 +1,6 @@
 package com.amalitech.movaapp.ft_explore
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,14 +15,18 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.amalitech.movaapp.R
 import com.amalitech.movaapp.core.components.LoadingProgressBar
@@ -44,10 +49,15 @@ fun ExploreScreen(
         if (state.isLoading) {
             LoadingProgressBar()
         } else {
-            MovieGridView(
-                movies = state.movies,
-                openDetails = openDetails
-            )
+            if (state.movies.isNotEmpty()) {
+                MovieGridView(
+                    movies = state.movies,
+                    openDetails = openDetails
+                )
+            } else {
+                NoMoviesFound()
+            }
+
         }
     }
 
@@ -110,6 +120,7 @@ fun SearchBar(
             backgroundColor = if (isFocused) LightRed else SearchBarColor,
             cursorColor = RedMain,
             unfocusedBorderColor = Color.Transparent,
+            focusedBorderColor = Color.Transparent,
             //focusedBorderColor = if (isFocused) RedMain else Color.Transparent
         ),
         modifier = Modifier
@@ -146,4 +157,36 @@ fun FilterButton(
 
     }
 
+}
+
+@Composable
+fun NoMoviesFound() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.no_movies_found), 
+            contentDescription = "No movies found",
+            modifier = Modifier.width(200.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Not Found",
+            fontSize = 20.sp,
+            color = RedMain,
+            fontWeight = FontWeight.SemiBold
+        )
+        
+        Text(
+            text = "Sorry, the keyword you entered could not be found. Try to check again or search with other keywords.",
+            fontSize = 16.sp,
+            color = TextBlack,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+            textAlign = TextAlign.Center
+        )
+        
+    }
+    
 }
