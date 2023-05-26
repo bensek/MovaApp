@@ -27,7 +27,7 @@ class DetailViewModel(
                 val movie = repo.getMovieDetails(movieId!!)
                 val videos = repo.getMovieVideos(movieId!!)
                 val similar = repo.getSimilarMovies(movieId!!)
-                val credits = emptyList<Credit>() //repo.getMovieCredits(movieId!!)
+                val credits = repo.getMovieCredits(movieId!!)
 
                 _uiState.update {
                     it.copy(
@@ -41,7 +41,7 @@ class DetailViewModel(
             } catch (e: Exception) {
                 Log.e("TAG", "Error -> ${e.message}")
                 _uiState.update {
-                    it.copy(isFailure = true, isLoading = false, errorMsg = e.message.toString())
+                    it.copy(isFailure = true, errorMsg = e.message.toString())
                 }
             }
         }

@@ -1,6 +1,10 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package com.amalitech.movaapp.ft_home.detail
 
 import android.widget.Toast
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +33,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +48,7 @@ import com.amalitech.movaapp.domain.model.Movie
 import com.amalitech.movaapp.domain.model.Video
 import com.amalitech.movaapp.ui.theme.*
 
+
 @Composable
 fun DetailScreen(
     navigateUp: () -> Unit,
@@ -51,14 +57,26 @@ fun DetailScreen(
 ) {
     val padding = LocalDimensions.current.padding
     val state by viewModel.uiState.collectAsState()
-    val context = LocalContext.current
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
 
-    if (state.isLoading) {
-        LoadingProgressBar()
-    } else if (state.isFailure) {
-        Toast.makeText(context, state.errorMsg, Toast.LENGTH_SHORT).show()
-    } else {
-        DetailLayout(padding = padding, state = state, navigateUp, movieItemClicked)
+    if (state.isFailure) {
+        LaunchedEffect(key1 = snackbarHostState) {
+            snackbarHostState.showSnackbar(state.errorMsg)
+        }
+    }
+
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { scaffoldPadding ->
+        val modifier = Modifier.padding(scaffoldPadding)
+
+        if (state.isLoading) {
+            LoadingProgressBar()
+        } else {
+            DetailLayout(padding = padding, state = state, navigateUp, movieItemClicked)
+        }
     }
 }
 
@@ -225,12 +243,19 @@ fun DetailLayout(
         }
 
         ClickableText(
-            modifier = Modifier.padding(
-                start = padding,
-                top = 8.dp,
-                bottom = padding,
-                end = padding
-            ),
+            modifier = Modifier
+                .padding(
+                    start = padding,
+                    top = 8.dp,
+                    bottom = padding,
+                    end = padding
+                )
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                ),
             text = AnnotatedString(movie.description, SpanStyle(fontSize = 12.sp)),
             onClick = {
                 descriptionEllipsized = !descriptionEllipsized
@@ -251,7 +276,7 @@ fun DetailLayout(
 
         // Tabs: Trailers, More Like This, Comments
         TabLayout(
-            poster = movie.backDropUrl,
+            poster = movie.imageUrl,
             videos = state.trailers,
             similar = state.similar,
             onMovieItemClicked = onMovieItemClicked
@@ -351,14 +376,30 @@ fun TabLayout(
             )
         }
 
-        when (selectedTabIndex) {
-            0 -> {
-                TrailersTab(poster, videos)
+        AnimatedContent(
+            targetState = selectedTabIndex,
+            transitionSpec = {
+                slideIntoContainer(
+                    animationSpec = tween(300, easing = EaseIn),
+                    towards = AnimatedContentScope.SlideDirection.Up
+                ).with(
+                    slideOutOfContainer(
+                        animationSpec = tween(300, easing = EaseOut),
+                        towards = AnimatedContentScope.SlideDirection.Down
+                    )
+                )
             }
-            1 -> {
-                MoreLikeThisTab(similar, onMovieItemClicked)
+        ) {
+            when (selectedTabIndex) {
+                0 -> {
+                    TrailersTab(poster, videos)
+                }
+                1 -> {
+                    MoreLikeThisTab(similar, onMovieItemClicked)
+                }
             }
         }
+
 
     }
 }

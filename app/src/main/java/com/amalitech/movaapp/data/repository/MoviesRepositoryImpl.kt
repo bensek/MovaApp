@@ -92,12 +92,12 @@ class MoviesRepositoryImpl(
     override suspend fun getMovieCredits(id: Int): List<Credit> {
         return withContext(dispatcher) {
             val credit = api.getMovieCredits(id)
-                .results
+                .cast
                 .map {
                     it.toCredit()
                 }
 
-            Log.v("Tag", "Credit: ${credit.size}")
+            Log.v("Tag", "Credit: ${credit?.size}")
 
             credit
         }

@@ -17,9 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.amalitech.movaapp.R
 import com.amalitech.movaapp.core.components.MIconButton
@@ -34,8 +36,8 @@ import com.amalitech.movaapp.ui.theme.TextBlack
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
-    viewModel: HomeViewModel,
+    navController: NavHostController = rememberNavController(),
+    viewModel: HomeViewModel = HomeViewModel(),
     openDetails: (Int) -> Unit
 ) {
     val state = viewModel.uiState.collectAsState()
@@ -72,6 +74,7 @@ fun HomeScreen(
 
 @Composable
 fun FeaturedMovie(movie: Movie) {
+
     Box(
         modifier = Modifier
             .height(280.dp)
@@ -200,7 +203,9 @@ fun SectionList(
             horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             items(moviesList) { movie ->
-                MovieListItem(movie = movie, cardModifier = Modifier.width(140.dp).height(200.dp), openDetails)
+                MovieListItem(movie = movie, cardModifier = Modifier
+                    .width(140.dp)
+                    .height(200.dp), openDetails)
             }
         }
     }
