@@ -108,7 +108,7 @@ fun SearchBar(
         placeholder = {
             Text(text = "Search")
         },
-        shape = RoundedCornerShape(6.dp),
+        shape = RoundedCornerShape(10.dp),
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -144,7 +144,7 @@ fun FilterButton(
     IconButton(
         onClick = openFilter,
         modifier = Modifier
-            .clip(RoundedCornerShape(6.dp))
+            .clip(RoundedCornerShape(10.dp))
             .background(LightRed)
             .size(50.dp)
     ) {
