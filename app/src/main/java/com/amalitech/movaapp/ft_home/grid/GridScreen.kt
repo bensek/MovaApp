@@ -1,5 +1,6 @@
 package com.amalitech.movaapp.ft_home.grid
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -9,7 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,17 +32,19 @@ fun GridScreen(
     movieType: String?,
     onItemClick: (Int) -> Unit
 ) {
-    val state = viewModel.uiState.collectAsState()
-
+    val state by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
     Scaffold(
         topBar = { ToolBar(navigateUp = navigateUp, title = "$movieType Movies", isTransparent = false) }
     ) {
         println(it)
-        if (state.value.isLoading) {
+        if (state.isLoading) {
             LoadingProgressBar()
+        } else if (state.hasError) {
+            Toast.makeText(context, state.errorMessage, Toast.LENGTH_LONG).show()
         } else {
             GridItems(
-                movies = state.value.movies,
+                movies = state.movies,
                 openDetails = onItemClick
             )
         }

@@ -31,21 +31,3 @@ data class MovieDto(
     @SerializedName("spoken_languages")
     val spokenLanguages: List<SpokenLanguageDto>?
 )
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun MovieDto.toMovie(): Movie {
-    return Movie(
-        id = id,
-        title = title,
-        description = overview,
-        imageUrl = IMAGE_BASE_URL + posterPath,
-        backDropUrl = IMAGE_BASE_URL + backdropPath,
-        rating = String.format("%.1f", voteAverage),
-        genre = genreString(genres),
-        releaseDate = formatDateFromSimpleFormat(releaseDate),
-        age = if (adult) "18+" else "13+",
-        language = spokenLanguagesString(spokenLanguages),
-        status = status ?: ""
-    )
-}
-

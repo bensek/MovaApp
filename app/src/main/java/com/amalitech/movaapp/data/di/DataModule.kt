@@ -1,6 +1,7 @@
 package com.amalitech.movaapp.data.di
 
 import com.amalitech.movaapp.data.remote.ApiInterface
+import com.amalitech.movaapp.data.remote.dto.MovieMapper
 import com.amalitech.movaapp.data.repository.MoviesRepositoryImpl
 import com.amalitech.movaapp.domain.repository.MoviesRepository
 import dagger.Module
@@ -16,5 +17,4 @@ object DataModule {
     fun providesMoviesRepository(api: ApiInterface): MoviesRepository {
         return MoviesRepositoryImpl(api)
     }
-
 }
