@@ -1,11 +1,11 @@
 package com.amalitech.movaapp.domain.use_case
 
+import com.amalitech.movaapp.core.util.MovieType
 import com.amalitech.movaapp.core.util.Resource
 import com.amalitech.movaapp.data.remote.dto.ApiData
 import com.amalitech.movaapp.data.remote.dto.MovieMapper
 import com.amalitech.movaapp.domain.model.Movie
 import com.amalitech.movaapp.domain.repository.MoviesRepository
-import com.amalitech.movaapp.ft_home.MovieType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

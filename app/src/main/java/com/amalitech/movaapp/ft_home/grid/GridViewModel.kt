@@ -4,9 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.movaapp.core.util.Resource
+import com.amalitech.movaapp.core.util.createMovieTypeFromString
 import com.amalitech.movaapp.domain.use_case.GetMoviesBasedOnTypeUseCase
-import com.amalitech.movaapp.ft_home.MovieType
-import com.amalitech.movaapp.ft_home.createMovieTypeFromString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

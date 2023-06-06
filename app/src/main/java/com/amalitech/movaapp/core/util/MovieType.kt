@@ -1,4 +1,4 @@
-package com.amalitech.movaapp.ft_home
+package com.amalitech.movaapp.core.util
 
 const val POPULAR = "Popular"
 const val TOP_RATED = "Top Rated"

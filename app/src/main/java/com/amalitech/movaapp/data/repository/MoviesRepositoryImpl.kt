@@ -65,6 +65,10 @@ class MoviesRepositoryImpl @Inject constructor(
         return api.fetchUpcomingMovies()
     }
 
+    override suspend fun fetchNowPlayingMovies(): Response<ApiData> {
+        return api.fetchNowPlayingMovies()
+    }
+
     override suspend fun getFeaturedMovie(): Movie {
         return withContext(dispatcher) {
             api.getNowPlayingMovies()

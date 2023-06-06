@@ -21,7 +21,6 @@ import com.amalitech.movaapp.core.components.LoadingProgressBar
 import com.amalitech.movaapp.core.components.MovieListItem
 import com.amalitech.movaapp.core.components.ToolBar
 import com.amalitech.movaapp.domain.model.Movie
-import com.amalitech.movaapp.ft_home.MovieType
 import com.amalitech.movaapp.ui.theme.LocalDimensions
 import com.amalitech.movaapp.ui.theme.TextBlack
 

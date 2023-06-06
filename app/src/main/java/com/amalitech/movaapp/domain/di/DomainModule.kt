@@ -2,6 +2,8 @@ package com.amalitech.movaapp.domain.di
 
 import com.amalitech.movaapp.data.remote.dto.MovieMapper
 import com.amalitech.movaapp.domain.repository.MoviesRepository
+import com.amalitech.movaapp.domain.use_case.GetHomeMoviesUseCase
+import com.amalitech.movaapp.domain.use_case.GetHomeMoviesUseCaseImpl
 import com.amalitech.movaapp.domain.use_case.GetMoviesBasedOnTypeUseCase
 import com.amalitech.movaapp.domain.use_case.GetMoviesBasedOnTypeUseCaseImpl
 import dagger.Module
@@ -19,6 +21,14 @@ object DomainModule {
         mapper: MovieMapper
     ): GetMoviesBasedOnTypeUseCase {
         return GetMoviesBasedOnTypeUseCaseImpl(repository, mapper)
+    }
+
+    @Provides
+    fun providesGetHomeMoviesUseCase(
+        repository: MoviesRepository,
+        mapper: MovieMapper
+    ): GetHomeMoviesUseCase {
+        return GetHomeMoviesUseCaseImpl(repository, mapper)
     }
 
 

@@ -23,6 +23,9 @@ interface ApiInterface {
     @GET("movie/top_rated")
     suspend fun fetchTopMovies(): Response<ApiData>
 
+    @GET("movie/now_playing")
+    suspend fun fetchNowPlayingMovies(): Response<ApiData>
+
     @GET("movie/upcoming")
     suspend fun fetchUpcomingMovies(): Response<ApiData>
 

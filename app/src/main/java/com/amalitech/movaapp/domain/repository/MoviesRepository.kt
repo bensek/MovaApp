@@ -20,6 +20,8 @@ interface MoviesRepository {
 
     suspend fun fetchUpcomingMovies(): Response<ApiData>
 
+    suspend fun fetchNowPlayingMovies(): Response<ApiData>
+
     suspend fun getFeaturedMovie(): Movie
 
     suspend fun getMovieDetails(id: Int): Movie
