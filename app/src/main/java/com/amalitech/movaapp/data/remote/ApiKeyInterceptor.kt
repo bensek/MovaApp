@@ -3,9 +3,10 @@ package com.amalitech.movaapp.data.remote
 import com.amalitech.movaapp.core.util.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
 
-class ApiKeyInterceptor : Interceptor {
+class ApiKeyInterceptor @Inject constructor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val modifiedUrl = originalRequest.url.newBuilder()

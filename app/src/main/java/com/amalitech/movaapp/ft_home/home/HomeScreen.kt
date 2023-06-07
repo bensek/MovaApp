@@ -1,5 +1,6 @@
 package com.amalitech.movaapp.ft_home.home
 
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,13 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
@@ -45,6 +45,12 @@ fun HomeScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
+    if(state.hasError) {
+        Toast.makeText(context, state.errorMessage, Toast.LENGTH_SHORT).show()
+        viewModel.errorShown()
+    }
 
     if (state.isLoading) {
         LoadingProgressBar()
@@ -53,24 +59,23 @@ fun HomeScreen(
             modifier = Modifier
                 .verticalScroll(scrollState)
         ) {
-            FeaturedMovie(movie = state.movies!!.featuredMovie)
+            FeaturedMovie(movie = state.movies!!.featured)
 
-            SectionList(title = "Popular Movies", moviesList = state.movies!!.popularMovies,
+            SectionList(title = "Popular Movies", moviesList = state.movies!!.popular,
             seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.Popular.name}") },
                 { openDetails(it) } )
 
             SectionList(
-                title = "Upcoming Movies", moviesList = state.movies!!.upcomingMovies,
+                title = "Upcoming Movies", moviesList = state.movies!!.upcoming,
                 seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.Upcoming.name}") },
                 openDetails = { openDetails(it) }
             )
 
             SectionList(
-                title = "Top Rated Movies", moviesList = state.movies!!.topRatedMovies,
+                title = "Top Rated Movies", moviesList = state.movies!!.topRated,
                 seeAll = { navController.navigate(Screen.GridScreen.route + "/${MovieType.TopRated.name}") },
                 openDetails = { openDetails(it) }
             )
-
         }
     }
 }

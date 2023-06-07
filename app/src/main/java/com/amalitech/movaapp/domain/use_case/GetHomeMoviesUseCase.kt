@@ -5,5 +5,5 @@ import com.amalitech.movaapp.domain.model.HomeMovies
 import kotlinx.coroutines.flow.Flow
 
 interface GetHomeMoviesUseCase {
-    suspend operator fun invoke(): Flow<Resource<HomeMovies>>
+    suspend operator fun invoke(): Result<HomeMovies>
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.amalitech.movaapp.core.util.Resource
 import com.amalitech.movaapp.core.util.createMovieTypeFromString
+import com.amalitech.movaapp.domain.model.HomeMovies
+import com.amalitech.movaapp.domain.model.Movie
 import com.amalitech.movaapp.domain.use_case.GetMoviesBasedOnTypeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,57 +31,25 @@ class GridViewModel @Inject constructor(
     }
 
     private fun showMovies() {
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val movieType = createMovieTypeFromString(typeArg)
-            getMoviesBasedOnTypeUseCase(movieType).collect { resource ->
-                when(resource) {
-                    is Resource.Loading -> {
-                        _uiState.update { it.copy(isLoading = true) }
-                    }
-                    is Resource.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                movies = resource.data!!
-                            )
-                        }
-                    }
-                    is Resource.Error -> {
-                        _uiState.value = GridUiState(
-                            hasError = true,
-                            errorMessage = resource.message,
-                            isLoading = false
-                        )
-                    }
+            val result: Result<List<Movie>> = getMoviesBasedOnTypeUseCase(createMovieTypeFromString(typeArg))
+            if (result.isSuccess) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        movies = result.getOrNull()!!,
+                        hasError = false
+                    )
+                }
+            } else {
+                _uiState.update {
+                    it.copy(
+                        hasError = true,
+                        errorMessage = result.exceptionOrNull()?.message!!
+                    )
                 }
             }
         }
     }
-
-//    private fun loadMovies() {
-//            _uiState.update { it.copy(isLoading = true) }
-//
-//            viewModelScope.launch {
-//                var list = emptyList<Movie>()
-//
-//                when (movieType) {
-//                    MovieType.Popular.name -> {
-//                        list = repo.getPopularMovies()
-//                    }
-//                    MovieType.TopRated.name -> {
-//                        list = repo.getTopRatedMovies()
-//                    }
-//                    MovieType.Upcoming.name -> {
-//                        list = repo.getUpcomingMovies()
-//                    }
-//                }
-//
-//                _uiState.update { state ->
-//                    state.copy(
-//                        movies = list,
-//                        isLoading = false
-//                    )
-//                }
-//            }
-//         }
 }

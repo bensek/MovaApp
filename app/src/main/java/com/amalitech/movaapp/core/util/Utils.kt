@@ -1,7 +1,9 @@
 package com.amalitech.movaapp.core.util
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import com.amalitech.movaapp.R
 import com.amalitech.movaapp.core.util.Constants.DATE_FORMAT
 import com.amalitech.movaapp.core.util.Constants.IMAGE_BASE_URL
 import com.amalitech.movaapp.data.remote.dto.GenreDto
@@ -9,6 +11,18 @@ import com.amalitech.movaapp.data.remote.dto.SpokenLanguageDto
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+class PLog {
+    companion object {
+        fun v(msg: String) {
+            Log.v(LOG_TAG, msg)
+        }
+        fun e(msg: String) {
+            Log.e(LOG_TAG, msg)
+        }
+
+        const val LOG_TAG = "MovaApp"
+    }
+}
 fun getImageUrl(path: String): String {
     return IMAGE_BASE_URL + path
 }

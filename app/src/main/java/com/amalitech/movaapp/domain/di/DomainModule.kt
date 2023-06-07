@@ -17,18 +17,16 @@ object DomainModule {
 
     @Provides
     fun providesGetPopularMoviesUseCase(
-        repository: MoviesRepository,
-        mapper: MovieMapper
+        repository: MoviesRepository
     ): GetMoviesBasedOnTypeUseCase {
-        return GetMoviesBasedOnTypeUseCaseImpl(repository, mapper)
+        return GetMoviesBasedOnTypeUseCaseImpl(repository)
     }
 
     @Provides
     fun providesGetHomeMoviesUseCase(
-        repository: MoviesRepository,
-        mapper: MovieMapper
+        repository: MoviesRepository
     ): GetHomeMoviesUseCase {
-        return GetHomeMoviesUseCaseImpl(repository, mapper)
+        return GetHomeMoviesUseCaseImpl(repository)
     }
 
 

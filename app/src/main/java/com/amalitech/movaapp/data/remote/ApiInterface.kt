@@ -4,6 +4,7 @@ import com.amalitech.movaapp.data.remote.dto.ApiData
 import com.amalitech.movaapp.data.remote.dto.CreditApiResponse
 import com.amalitech.movaapp.data.remote.dto.MovieDto
 import com.amalitech.movaapp.data.remote.dto.VideoApiResponse
+import com.amalitech.movaapp.data.remote.retrofit.ApiResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,32 +12,17 @@ import retrofit2.http.Query
 
 interface ApiInterface {
 
-    @GET("movie/now_playing")
-    suspend fun getLatestMovies(): ApiData
-
     @GET("movie/popular")
-    suspend fun getPopularMovies(): ApiData
-
-    @GET("movie/popular")
-    suspend fun fetchPopularMovies(): Response<ApiData>
+    suspend fun fetchPopularMovies(): ApiResult<ApiData>
 
     @GET("movie/top_rated")
-    suspend fun fetchTopMovies(): Response<ApiData>
+    suspend fun fetchTopMovies(): ApiResult<ApiData>
 
     @GET("movie/now_playing")
-    suspend fun fetchNowPlayingMovies(): Response<ApiData>
+    suspend fun fetchNowPlayingMovies(): ApiResult<ApiData>
 
     @GET("movie/upcoming")
-    suspend fun fetchUpcomingMovies(): Response<ApiData>
-
-    @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(): ApiData
-
-    @GET("movie/top_rated")
-    suspend fun getTopRatedMovies(): ApiData
-
-    @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(): ApiData
+    suspend fun fetchUpcomingMovies(): ApiResult<ApiData>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int): MovieDto

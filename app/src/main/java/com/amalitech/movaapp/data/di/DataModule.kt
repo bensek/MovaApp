@@ -14,7 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 object DataModule {
 
     @Provides
-    fun providesMoviesRepository(api: ApiInterface): MoviesRepository {
-        return MoviesRepositoryImpl(api)
+    fun providesMoviesRepository(api: ApiInterface, mapper: MovieMapper): MoviesRepository {
+        return MoviesRepositoryImpl(api, mapper)
     }
 }

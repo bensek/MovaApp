@@ -6,5 +6,5 @@ import com.amalitech.movaapp.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
 interface GetMoviesBasedOnTypeUseCase {
-    suspend operator fun invoke(movieType: MovieType): Flow<Resource<List<Movie>>>
+    suspend operator fun invoke(movieType: MovieType): Result<List<Movie>>
 }
