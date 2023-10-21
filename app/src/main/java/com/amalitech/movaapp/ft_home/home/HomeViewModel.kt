@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
         showMovies()
     }
 
-    private fun showMovies() {
+    fun showMovies() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result = getHomeMoviesUseCase()

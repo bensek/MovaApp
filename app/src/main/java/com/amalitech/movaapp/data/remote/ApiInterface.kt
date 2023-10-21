@@ -12,6 +12,8 @@ import retrofit2.http.Query
 
 interface ApiInterface {
 
+    // Home Screen
+
     @GET("movie/popular")
     suspend fun fetchPopularMovies(): ApiResult<ApiData>
 
